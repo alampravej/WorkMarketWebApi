@@ -157,8 +157,17 @@ namespace WorkMarketWebAPI.Models
             }
             else
             {
-                string output = await message.Content.ReadAsStringAsync();
-                returnObject = JsonConvert.DeserializeObject<T>(output);
+                try
+                {
+                    string output = await message.Content.ReadAsStringAsync();
+                    returnObject = JsonConvert.DeserializeObject<T>(output);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                
             }
 
 

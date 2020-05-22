@@ -9,7 +9,7 @@ namespace WorkMarketWebAPI.Models
 {
     public class AssignmentHelper
     {
-        public static async Task<ResponseCommon> CreateAssignment(Assignment assignmentModel )
+        public static async Task<ResponseCommon> CreateAssignment(Assignment assignmentModel)
         {
             AccessTokenHelper accessTokenHelper = new AccessTokenHelper();
 
@@ -86,5 +86,11 @@ namespace WorkMarketWebAPI.Models
 
         [JsonProperty("template_id")]
         public long TemplateId { get; set; }
+
+        [JsonProperty("p_serviceordercode")]
+        public string P_ServiceOrderCode { get; set; }
+
+        [JsonProperty("p_sitecode")]
+        public string P_SiteCode { get; set; }
     }
 }

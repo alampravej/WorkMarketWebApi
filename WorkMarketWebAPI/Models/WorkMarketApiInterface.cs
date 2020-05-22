@@ -43,8 +43,22 @@ namespace WorkMarketWebAPI.Models
 
         public async Task<ResponseCommon> CreateAssignment(Assignment model)
         {
-            var endPointUrl = $"assignments/create?title={model.Title}&description={model.Description}&industry_id={model.IndustryId}&pricing_type={model.PricingType}&location_offsite={model.LocationOffsite}&location_name={model.LocationName}&location_number={model.LocationNumber}" +
+
+            string strParams = $"title={model.Title}&description={model.Description}&industry_id={model.IndustryId}&pricing_type={model.PricingType}&location_offsite={model.LocationOffsite}&location_name={model.LocationName}&location_number={model.LocationNumber}" +
                 $"&location_address1={model.LocationAddress1}&location_address2={model.LocationAddress2}&location_city={model.LocationCity}&location_state={model.LocationState}&location_zip={model.LocationZip}&location_country={model.LocationCountry}&scheduled_start_date={model.ScheduledStartDate}&scheduled_end_date={model.ScheduledEndDate}&pricing_flat_price={model.PricingFlatPrice}&template_id={model.TemplateId}";
+
+            #region Custom Fields
+            int mainId = 489;
+            int serviceOrderId = 2987;
+            int siteCode = 2988;
+
+            strParams += $"&custom_field_groups[0][id]={mainId}";
+            strParams += $"&custom_field_groups[0][fields][0][id]={serviceOrderId}&custom_field_groups[0][fields][0][value]={(string.IsNullOrWhiteSpace(model.P_ServiceOrderCode) ? "0" : model.P_ServiceOrderCode)}";
+            strParams += $"&custom_field_groups[0][fields][1][id]={siteCode}&custom_field_groups[0][fields][1][value]={(string.IsNullOrWhiteSpace(model.P_SiteCode) ? "0" : model.P_SiteCode)}";
+            #endregion
+
+
+            var endPointUrl = $"assignments/create?" + strParams;
 
             httpClientHelper.AccessToken = AccessToken;
 
@@ -253,6 +267,9 @@ namespace WorkMarketWebAPI.Models
 
         [JsonProperty("status_code")]
         public long StatusCode { get; set; }
+
+        [JsonProperty("message")]
+        public string Message { get; set; }
 
         [JsonProperty("version")]
         public long Version { get; set; }
